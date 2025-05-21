@@ -1,4 +1,5 @@
-import SectionWrapper from "./SectionWrapper";
+// src/components/FeaturesSection.jsx
+import { motion } from "framer-motion";
 import {
   FaRunning,
   FaAppleAlt,
@@ -41,41 +42,66 @@ const features = [
   },
 ];
 
-const FeaturesSection = () => {
+const FeaturesSection = ({ isActive }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: isActive ? 0.2 : 0 },
+    },
+  };
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+  };
+
   return (
-    <SectionWrapper>
-      <section className="text-center">
-        <h2 className="text-3xl font-semibold mb-4">
+    <div className="h-full flex flex-col justify-center items-center text-center pt-20 pb-10 px-4 sm:px-6 overflow-y-auto bg-white">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate={isActive ? "visible" : "hidden"}
+        className="w-full max-w-5xl"
+      >
+        <motion.h2
+          variants={itemVariants}
+          className="text-3xl sm:text-4xl font-semibold mb-5 text-gray-800"
+        >
           Everything You Need to Stay Fit,
           <br className="hidden sm:block" /> in One App
-        </h2>
-
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+        </motion.h2>
+        <motion.div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left">
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white p-4 rounded-md shadow hover:shadow-lg transition"
+              variants={itemVariants}
+              className="bg-gray-50 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <div className="mb-3">{feature.icon}</div>
-              <h3 className="font-bold text-lg mb-1">{feature.title}</h3>
+              <h3 className="font-bold text-lg mb-1 text-gray-700">
+                {feature.title}
+              </h3>
               <p className="text-sm text-gray-600">{feature.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-        <div className="mt-8 flex justify-center gap-4">
-          <button className="border border-black px-4 py-2 rounded-full text-sm hover:bg-black hover:text-white transition">
-            Macro Goals
-          </button>
-          <button className="border border-black px-4 py-2 rounded-full text-sm hover:bg-black hover:text-white transition">
-            Habit Tracker
-          </button>
-          <button className="border border-black px-4 py-2 rounded-full text-sm hover:bg-black hover:text-white transition">
-            Progress Tracking
-          </button>
-        </div>
-      </section>
-    </SectionWrapper>
+        </motion.div>
+        <motion.div
+          variants={itemVariants}
+          className="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4"
+        >
+          {["AI Photo Scan", "Calorie Tracker", "Progress Tracking"].map(
+            (text) => (
+              <button
+                key={text}
+                className="border border-gray-300 px-5 py-2 rounded-full text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+              >
+                {text}
+              </button>
+            )
+          )}
+        </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
