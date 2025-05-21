@@ -1,4 +1,3 @@
-// src/components/FeaturesSection.jsx
 import { motion } from "framer-motion";
 import {
   FaRunning,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/fa";
 
 const features = [
+  // ... (your features data)
   {
     icon: <FaRunning className="text-2xl text-blue-500" />,
     title: "Smarter Tracking, Zero Effort",
@@ -56,12 +56,12 @@ const FeaturesSection = ({ isActive }) => {
   };
 
   return (
-    <div className="h-full flex flex-col justify-center items-center text-center pt-20 pb-10 px-4 sm:px-6 overflow-y-auto bg-white">
+    <div className="h-full w-full flex flex-col justify-center items-center text-center py-10 sm:py-16 px-4 sm:px-6 overflow-y-auto bg-white">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isActive ? "visible" : "hidden"}
-        className="w-full max-w-5xl"
+        className="w-full max-w-5xl mx-auto" // Content max width
       >
         <motion.h2
           variants={itemVariants}
@@ -70,7 +70,7 @@ const FeaturesSection = ({ isActive }) => {
           Everything You Need to Stay Fit,
           <br className="hidden sm:block" /> in One App
         </motion.h2>
-        <motion.div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left">
+        <motion.div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -87,7 +87,7 @@ const FeaturesSection = ({ isActive }) => {
         </motion.div>
         <motion.div
           variants={itemVariants}
-          className="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4"
+          className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-3 sm:gap-4"
         >
           {["AI Photo Scan", "Calorie Tracker", "Progress Tracking"].map(
             (text) => (

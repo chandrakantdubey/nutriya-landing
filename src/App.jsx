@@ -1,13 +1,10 @@
-// src/App.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import RootLayout from "./layouts/RootLayout";
-// import Header from "./components/Header";
+import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import FeaturesSection from "./components/FeaturesSection";
 import TabsSection from "./components/TabsSection";
 import HowToStartSection from "./components/HowToStartSection";
-// import TestimonialsSection from "./components/TestimonialsSection";
 import CtaSection from "./components/CtaSection";
 
 const sectionsConfig = [
@@ -15,17 +12,17 @@ const sectionsConfig = [
   { id: "features", Component: FeaturesSection },
   { id: "tabs", Component: TabsSection, hasInternalScroll: true },
   { id: "how-to-start", Component: HowToStartSection },
-  // { id: "testimonials", Component: TestimonialsSection },
   { id: "cta", Component: CtaSection },
 ];
+
+const HEADER_HEIGHT_REM = 4;
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState(null); // 'up' or 'down'
+  const [scrollDirection, setScrollDirection] = useState(null);
 
   const appContainerRef = useRef(null);
-  // Correctly initialize refs for components that might need it (like TabsSection)
   const sectionRefs = useRef(
     sectionsConfig.map((config) =>
       config.hasInternalScroll ? React.createRef() : null
@@ -39,18 +36,15 @@ function App() {
     }
 
     let direction = null;
-    if (event.deltaY > 5) direction = "down"; // Add a small threshold
-    else if (event.deltaY < -5) direction = "up"; // Add a small threshold
-    else return; // No significant vertical scroll
+    if (event.deltaY > 5) direction = "down";
+    else if (event.deltaY < -5) direction = "up";
+    else return;
 
-    event.preventDefault();
-    setIsScrolling(true);
-    setScrollDirection(direction);
+    event.preventDefault(); // Prevent default only if we are handling the scroll
 
     const currentSectionConfig = sectionsConfig[activeIndex];
     let internalScrollHandled = false;
 
-    // Check if the current section has internal scroll and if its ref exists and has the method
     if (
       currentSectionConfig.hasInternalScroll &&
       sectionRefs.current[activeIndex] &&
@@ -64,23 +58,27 @@ function App() {
     }
 
     if (internalScrollHandled) {
-      // If internal scroll was handled (e.g., tab changed), reset scrolling lock sooner
-      setTimeout(() => setIsScrolling(false), 300); // Adjust timing as needed for tab changes
+      setIsScrolling(true);
+      setTimeout(() => setIsScrolling(false), 300);
       return;
     }
+
+    // If not internal scroll, proceed with section change
+    setIsScrolling(true);
+    setScrollDirection(direction);
 
     let newIndex = activeIndex;
     if (direction === "down") {
       if (activeIndex < sectionsConfig.length - 1) newIndex = activeIndex + 1;
       else {
-        setIsScrolling(false);
+        setIsScrolling(false); // Reached end, release lock
         return;
       }
     } else {
       // direction === 'up'
       if (activeIndex > 0) newIndex = activeIndex - 1;
       else {
-        setIsScrolling(false);
+        setIsScrolling(false); // Reached start, release lock
         return;
       }
     }
@@ -88,15 +86,13 @@ function App() {
     if (newIndex !== activeIndex) {
       setActiveIndex(newIndex);
     }
-    // Timeout for main section transitions
-    // This needs to be roughly the duration of your animation or slightly longer
-    setTimeout(() => setIsScrolling(false), 800); // Increased slightly from 700ms animation
+
+    setTimeout(() => setIsScrolling(false), 800); // Timeout for main section transitions
   };
 
   useEffect(() => {
     const container = appContainerRef.current;
     if (container) {
-      // Use { passive: false } to allow preventDefault()
       container.addEventListener("wheel", handleScroll, { passive: false });
     }
     return () => {
@@ -104,38 +100,41 @@ function App() {
         container.removeEventListener("wheel", handleScroll);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, isScrolling]); // Add handleScroll to dependencies or memoize it if it changes too often
+  }, [activeIndex, isScrolling]); // Re-add handleScroll if it's memoized or dependencies change
 
   const sectionVariants = {
     enter: (direction) => ({
-      y: direction === "down" ? "100vh" : "-100vh",
+      y: direction === "down" ? "100%" : "-100%", // Use percentage for full coverage
       opacity: 0,
     }),
     center: {
       zIndex: 1,
       y: 0,
       opacity: 1,
-      // Corrected easing: using "easeInOutQuint"
       transition: { duration: 0.7, ease: [0.83, 0, 0.17, 1] },
     },
     exit: (direction) => ({
       zIndex: 0,
-      y: direction === "down" ? "-100vh" : "100vh",
+      y: direction === "down" ? "-100%" : "100%", // Use percentage
       opacity: 0,
-      // Corrected easing: using "easeInOutQuint"
       transition: { duration: 0.7, ease: [0.83, 0, 0.17, 1] },
     }),
   };
 
   return (
-    <>
+    <div
+      ref={appContainerRef}
+      className="h-screen w-screen overflow-hidden relative bg-white"
+    >
+      <Header />
+      {/* Container for the scrollable sections, positioned below the header */}
       <div
-        ref={appContainerRef}
-        className="h-screen w-screen overflow-hidden relative bg-white"
+        className="relative w-full overflow-hidden"
+        style={{
+          height: `calc(100vh - ${HEADER_HEIGHT_REM}rem)`,
+          top: `${HEADER_HEIGHT_REM}rem`,
+        }}
       >
-        {" "}
-        {/* Changed bg-gray-100 to bg-white for consistency */}
         <AnimatePresence initial={false} custom={scrollDirection} mode="wait">
           {sectionsConfig.map(({ id, Component }, index) =>
             index === activeIndex ? (
@@ -146,22 +145,18 @@ function App() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="absolute top-0 left-0 w-full h-full flex flex-col" // Removed pt-16 here, RootLayout or Section content should handle header spacing
+                className="absolute top-0 left-0 w-full h-full bg-white" // Each section fills this container
               >
-                {/* RootLayout is now inside the motion.div to be part of the transitioning content */}
-                <RootLayout>
-                  <Component
-                    // Pass ref only if it was created for this section
-                    ref={sectionRefs.current[index]}
-                    isActive={index === activeIndex}
-                  />
-                </RootLayout>
+                <Component
+                  ref={sectionRefs.current[index]}
+                  isActive={index === activeIndex}
+                />
               </motion.div>
             ) : null
           )}
         </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 }
 

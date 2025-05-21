@@ -1,8 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss"; /* For Tailwind v4, this might be slightly different or handled by the plugin */
 
 @font-face {
   font-family: "Lufga";
-  src: url("./assets/lufga.rtf") format("truetype");
+  /* IMPORTANT: .rtf is not a standard web font format. 
+     Replace with .woff2, .woff, .ttf, or .otf file and correct format string. */
+  src: url("./assets/lufga.rtf") format("truetype"); /* Assuming it's a TTF-like format if RTF wraps one */
   font-weight: normal;
   font-style: normal;
 }
@@ -22,6 +24,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: none; /* Prevents bounce scrolling at page ends */
+  background-color: #fff; /* Default background */
 }
 
 /* Custom scrollbar (optional, for webkit browsers) */

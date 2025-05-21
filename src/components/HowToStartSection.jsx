@@ -1,4 +1,3 @@
-// src/components/HowToStartSection.jsx
 import { motion } from "framer-motion";
 import step1 from "../assets/step-1.png";
 import step2 from "../assets/step-2.png";
@@ -6,6 +5,7 @@ import step3 from "../assets/step-3.png";
 import step4 from "../assets/step-4.png";
 
 const steps = [
+  // ... (your steps data)
   {
     id: 1,
     title: "Download the app",
@@ -50,9 +50,9 @@ const HowToStartSection = ({ isActive }) => {
   };
 
   return (
-    <div className="h-full w-full bg-gradient-to-br from-white to-[#f9f7fb] flex flex-col justify-center items-center text-center pt-20 pb-10 px-4 sm:px-6 overflow-y-auto">
+    <div className="h-full w-full bg-gradient-to-br from-white to-[#f9f7fb] flex flex-col justify-center items-center text-center py-10 sm:py-16 px-4 sm:px-6 overflow-y-auto">
       <motion.div
-        className="w-full max-w-5xl"
+        className="w-full max-w-5xl mx-auto" // Content max width
         variants={containerVariants}
         initial="hidden"
         animate={isActive ? "visible" : "hidden"}

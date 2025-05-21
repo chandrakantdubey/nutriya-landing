@@ -1,9 +1,11 @@
-// src/components/HeroSection.jsx
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-import heroCenterPhone from "../assets/hero-center.png";
-import heroLeftPhone from "../assets/hero-left.png";
-import heroRightPhone from "../assets/hero-right.png";
+
+// Assets
+import heroCenterPhoneNew from "../assets/hero-center.png";
+import heroLeftPhoneNew from "../assets/hero-left.png";
+import heroRightPhoneNew from "../assets/hero-right.png";
+import heroBg from "../assets/hero-bg.png";
 
 const HeroSection = ({ isActive }) => {
   const mainContentVariants = {
@@ -22,7 +24,6 @@ const HeroSection = ({ isActive }) => {
     },
   };
 
-  // yBase: vertical offset from items-end, scaleBase: initial scale, delay: animation delay
   const phoneVariants = (yBase = 0, scaleBase = 1, delay = 0) => ({
     hidden: { opacity: 0, y: 50 + yBase, scale: scaleBase * 0.9 },
     visible: {
@@ -37,93 +38,80 @@ const HeroSection = ({ isActive }) => {
     },
   });
 
-  const blobVariants = {
-    hidden: { opacity: 0, scale: 0.5 },
-    visible: {
-      opacity: 1, // Control final opacity here or on the blob's style
-      scale: 1,
-      transition: { duration: 1.2, ease: "circOut", delay: isActive ? 0.6 : 0 }, // Slightly longer and later
-    },
-  };
-
   return (
-    <div className="relative h-full flex flex-col justify-center items-center text-center pt-24 pb-10 px-4 overflow-hidden bg-white">
-      {/* Text Content */}
+    <div className="relative h-full w-full flex flex-col justify-between items-center text-center overflow-hidden bg-white">
       <motion.div
-        initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
-        className="flex flex-col items-center relative z-10" // z-10 to be above potential global background elements if any
+        className="absolute left-0 right-0 inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={
+          isActive
+            ? {
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  duration: 1.2,
+                  delay: 0.1,
+                  ease: [0.455, 0.03, 0.515, 0.955],
+                },
+              }
+            : {}
+        }
       >
-        <motion.h1
-          variants={mainContentVariants}
-          className="text-5xl sm:text-6xl lg:text-[64px] leading-tight font-bold text-black"
-        >
-          Your Fitness. Your Way.
-          <br className="hidden sm:block" /> One Smart App
-        </motion.h1>
-        <motion.p
-          variants={mainContentVariants}
-          className="text-gray-600 mt-6 text-lg sm:text-xl max-w-xl md:max-w-2xl mx-auto"
-        >
-          Track your steps and calories effortlessly. Stay motivated, every step
-          of the way.
-        </motion.p>
-        <motion.button
-          variants={mainContentVariants}
-          className="mt-10 px-7 py-3 border-2 border-black text-black rounded-lg text-base font-semibold hover:bg-black hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 flex items-center gap-2"
-        >
-          Explore More <FiArrowUpRight className="w-5 h-5" />
-        </motion.button>
+        <img
+          src={heroBg}
+          alt="Hero background"
+          className="w-full h-full object-cover"
+        />
       </motion.div>
 
-      {/* Phone Images Container */}
-      {/* This container is relative, and the blob will be absolutely positioned within it but behind the phones. */}
-      <motion.div
-        className="relative mt-12 sm:mt-16 flex justify-center items-end gap-0" // items-end aligns phones at their bottom
-        variants={phoneContainerVariants}
-        initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
-      >
-        {/* Purple Background Blob - Positioned INSIDE phone container, behind phones */}
+      {/* Main content container (text and phones) */}
+      <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-12 z-10">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0" // Centered within this parent
-          variants={blobVariants} // Use same overall container variants or dedicated blob variants
-          // No initial/animate here if inheriting from parent, or use dedicated blobVariants
+          className="flex flex-col items-center justify-center"
+          variants={mainContentVariants}
+          initial="hidden"
+          animate={isActive ? "visible" : "hidden"}
         >
-          {/* For debugging blob visibility: remove/reduce blur, increase opacity, use bright color */}
-          <div
-            className="w-[400px] h-[400px] sm:w-[500px] md:w-[600px] lg:w-[700px] 
-                            aspect-square bg-purple-200/40 rounded-full filter blur-3xl opacity-90"
-          >
-            {/* If using aspect-square, only width or height is needed, e.g., w-[500px] aspect-square */}
-          </div>
+          <h1 className="text-[40px] sm:text-[40px] md:text-[52px] lg:text-[60px] font-bold text-gray-900 leading-tight xl:leading-snug">
+            Your Fitness. Your Way. One Smart App
+          </h1>
+          <p className="mt-4 sm:mt-6 text-gray-600 text-base sm:text-lg md:text-xl mx-auto">
+            Track your steps and calories effortlessly. Stay motivated, every
+            step of the way.
+          </p>
+          <button className="cursor-pointer mt-6 sm:mt-8 md:mt-10 px-6 py-3 sm:px-7 sm:py-3 border-2 border-gray-800 text-gray-800 rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-800 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center gap-2">
+            Explore More <FiArrowUpRight className="w-5 h-5" />
+          </button>
         </motion.div>
 
-        {/* Phone Images - these need to be z-10 or higher relative to the blob's z-0 if blob is sibling */}
-        {/* Or, if blob is z-0, phones with no z-index (auto) will naturally be on top if they come after blob in DOM */}
-
-        {/* Left Phone - Ensure it has a higher z-index than the blob or relies on DOM order */}
-        <motion.img
-          src={heroLeftPhone}
-          alt="Left phone"
-          className="relative z-10 w-[130px] sm:w-[160px] md:w-[180px] lg:w-[198px]"
-          variants={phoneVariants(15, 0.95, 0.4)} // y:15 (slightly lower), scale:0.95, delay:0.4s
-        />
-        {/* Center Phone - Ensure it has a higher z-index */}
-        <motion.img
-          src={heroCenterPhone}
-          alt="Center phone"
-          className="relative z-20 w-[180px] sm:w-[220px] md:w-[250px] lg:w-[760px] mx-[-20px] sm:mx-[-25px] md:mx-[-30px]" // Negative margin for overlap
-          variants={phoneVariants(0, 1, 0.2)} // y:0 (baseline), scale:1, delay:0.2s
-        />
-        {/* Right Phone - Ensure it has a higher z-index */}
-        <motion.img
-          src={heroRightPhone}
-          alt="Right phone"
-          className="relative z-10 w-[130px] sm:w-[160px] md:w-[180px] lg:w-[200px]"
-          variants={phoneVariants(15, 0.95, 0.4)} // y:15 (slightly lower), scale:0.95, delay:0.4s
-        />
-      </motion.div>
+        <motion.div
+          className="relative w-full flex justify-center items-end 
+                     gap-[-2%] sm:gap-[-3%] md:gap-[-5%] lg:gap-[-6%] {/* Adjusted negative gaps slightly, test these values */}
+                     mt-auto pb-2 sm:pb-4"
+          variants={phoneContainerVariants}
+          initial="hidden"
+          animate={isActive ? "visible" : "hidden"}
+        >
+          <motion.img
+            src={heroLeftPhoneNew}
+            alt="App screen diet tracking"
+            className="relative z-10 w-[28%] sm:w-[25%] md:w-auto md:max-w-[220px] lg:max-w-[260px] xl:max-w-[300px] h-auto object-contain transform translate-y-[3%] sm:translate-y-[2%]"
+            variants={phoneVariants(0.05, 1, 0.2)}
+          />
+          <motion.img
+            src={heroCenterPhoneNew}
+            alt="App screen main dashboard"
+            className="relative z-20 w-[40%] sm:w-[35%] md:w-auto md:max-w-[280px] lg:max-w-[540px] xl:max-w-[700px] h-auto object-contain -bottom-[20px] md:-bottom-[20px] lg:-bottom-[30px] xl:-bottom-[50px]" // Removed -bottom-[50px] for now, rely on items-end and natural flow. Add back if precise offset is crucial and test.
+            variants={phoneVariants(0, 1, 0)}
+          />
+          <motion.img
+            src={heroRightPhoneNew}
+            alt="App screen daily stats"
+            className="relative z-10 w-[28%] sm:w-[25%] md:w-auto md:max-w-[220px] lg:max-w-[260px] xl:max-w-[300px] h-auto object-contain transform translate-y-[3%] sm:translate-y-[2%]"
+            variants={phoneVariants(0.05, 1, 0.2)}
+          />
+        </motion.div>
+      </div>
     </div>
   );
 };
