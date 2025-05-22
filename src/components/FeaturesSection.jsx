@@ -7,36 +7,64 @@ import {
   FaTint,
   FaCheckCircle,
 } from "react-icons/fa";
+import ai from "../assets/ai.png";
+import protien from "../assets/protien.png";
+import dumbbell from "../assets/dumbbell.png";
+import sleep from "../assets/sleep.png";
+import gymBottle from "../assets/gym-bottle.png";
+import healthApp from "../assets/health-app.png";
+import ctaBg from "../assets/cta-bg.png";
 
 const features = [
-  // ... (your features data)
   {
-    icon: <FaRunning className="text-2xl text-blue-500" />,
+    icon: <img src={ai} className="text-2xl object-cover text-blue-500" />,
     title: "Smarter Tracking, Zero Effort",
     desc: "Get moving smarter, not harder. Our app gives you effortless daily tracking with zero fuss.",
   },
   {
-    icon: <FaAppleAlt className="text-2xl text-purple-500" />,
+    icon: (
+      <img src={protien} className="text-2xl object-cover text-purple-500" />
+    ),
     title: "Protein - Eat Smarter",
     desc: "Plan meals with purpose. Log smarter food choices, get personalized insights.",
   },
   {
-    icon: <FaMobileAlt className="text-2xl text-pink-500" />,
+    icon: (
+      <img
+        src={dumbbell}
+        className="text-2xl object-cover scale-[1.25] text-pink-500"
+      />
+    ),
     title: "Your Wellness, One Tap Away",
     desc: "Health data simplified. Access workouts, nutrition, and sleep stats instantly.",
   },
   {
-    icon: <FaHeartbeat className="text-2xl text-yellow-500" />,
+    icon: (
+      <img
+        src={sleep}
+        className="text-2xl object-cover scale-[0.9] text-yellow-500"
+      />
+    ),
     title: "Improve Recovery",
     desc: "Monitor energy levels and adjust workouts based on recovery data.",
   },
   {
-    icon: <FaTint className="text-2xl text-cyan-500" />,
+    icon: (
+      <img
+        src={gymBottle}
+        className="text-2xl object-cover scale-[1.25] text-cyan-500"
+      />
+    ),
     title: "Stay Hydrated, Stay Energized",
     desc: "Water tracking that keeps you alert, energetic, and in control of your goals.",
   },
   {
-    icon: <FaCheckCircle className="text-2xl text-green-500" />,
+    icon: (
+      <img
+        src={healthApp}
+        className="text-2xl object-cover scale-[1.5] text-green-500"
+      />
+    ),
     title: "Build Lasting Habits",
     desc: "Daily goals, reminders, and feedback to help build routines that stick.",
   },
@@ -56,16 +84,39 @@ const FeaturesSection = ({ isActive }) => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center text-center py-10 sm:py-16 px-4 sm:px-6 overflow-y-auto bg-white">
+    <div className="h-full w-full flex flex-col justify-center items-center text-center py-10 sm:py-8 px-4 sm:px-6 overflow-y-auto bg-white">
+      <motion.div
+        className="absolute left-0 right-0 inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={
+          isActive
+            ? {
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  duration: 1.2,
+                  delay: 0.1,
+                  ease: [0.455, 0.03, 0.515, 0.955],
+                },
+              }
+            : {}
+        }
+      >
+        <img
+          src={ctaBg}
+          alt="Hero background"
+          className="w-full h-full object-cover"
+        />
+      </motion.div>
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isActive ? "visible" : "hidden"}
-        className="w-full max-w-5xl mx-auto" // Content max width
+        className="w-full max-w-5xl mx-auto z-10" // Content max width
       >
         <motion.h2
           variants={itemVariants}
-          className="text-3xl sm:text-4xl font-semibold mb-5 text-gray-800"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-semibold mb-5 text-gray-800"
         >
           Everything You Need to Stay Fit,
           <br className="hidden sm:block" /> in One App
@@ -93,7 +144,7 @@ const FeaturesSection = ({ isActive }) => {
             (text) => (
               <button
                 key={text}
-                className="border border-gray-300 px-5 py-2 rounded-full text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                className="bg-blue-50 text-gray-700 px-4 py-2 rounded-full shadow-md text-sm mb-6 hover:bg-gray-50 transition"
               >
                 {text}
               </button>

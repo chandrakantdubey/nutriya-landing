@@ -121,6 +121,13 @@ function App() {
     }),
   };
 
+  const navigateToWaitlist = () => {
+    const ctaSectionIndex = sectionsConfig.findIndex(
+      (section) => section.id === "cta"
+    );
+    setActiveIndex(ctaSectionIndex);
+  };
+
   return (
     <div
       ref={appContainerRef}
@@ -150,6 +157,7 @@ function App() {
                 <Component
                   ref={sectionRefs.current[index]}
                   isActive={index === activeIndex}
+                  onNavigateToWaitlist={navigateToWaitlist}
                 />
               </motion.div>
             ) : null

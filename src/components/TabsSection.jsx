@@ -2,12 +2,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
-import tab1L from "../assets/tab-1-l.png";
-import tab1S from "../assets/tab-1-s.png";
-import tab2L from "../assets/tab-2-l.png";
-import tab2S from "../assets/tab-2-s.png";
-import tab3L from "../assets/tab-3-l.png";
-import tab3S from "../assets/tab-3-s.png";
+// import tab1L from "../assets/tab-1-l.png";
+// import tab2L from "../assets/tab-2-l.png";
+// import tab3L from "../assets/tab-3-l.png";
+import tab1L from "../assets/tab-1-l-removebg-preview.png";
+import tab2L from "../assets/tab-2-l-removebg-preview.png";
+import tab3L from "../assets/tab-3-l-removebg-preview.png";
+import tabsBg from "../assets/tabs-bg.png";
 
 const tabsData = [
   {
@@ -15,17 +16,15 @@ const tabsData = [
     title: "Snap a Photo,\nLog a Meal Instantly",
     description:
       "Forget searching and typing—just take a photo of your meal, and let the app’s AI detect and log the food for you. It's the fastest and smartest way to track what you eat with accuracy and ease.",
-    largeImg: tab3L,
-    smallImg: tab3S,
+    largeImg: tab1L,
     originalButtonText: "AI Photo Scan",
-  }, // Note: Images were swapped in original prompt, used tab3 for AI
+  },
   {
     id: "calorie-tracker",
     title: "Know What You Eat,\nStay on Track",
     description:
       "By using this app, you can easily log your meals, track daily calorie intake, and stay in control of your nutrition. Whether you're trying to lose weight or fuel your workouts, our calorie tracker helps you make smarter food choices with less effort.",
     largeImg: tab2L,
-    smallImg: tab2S,
     originalButtonText: "Calorie Tracker",
   },
   {
@@ -33,10 +32,9 @@ const tabsData = [
     title: "See Your Health\nImprove Over Time",
     description:
       "Track your daily steps, calories, and habits all in one place. This app turns your activity into simple charts and insights, so you can see how far you've come and stay motivated to reach your goals—day after day.",
-    largeImg: tab1L,
-    smallImg: tab1S,
+    largeImg: tab3L,
     originalButtonText: "Progress Tracking",
-  }, // Note: Images were swapped
+  },
 ];
 
 const TabsSection = forwardRef(({ isActive }, ref) => {
@@ -46,19 +44,17 @@ const TabsSection = forwardRef(({ isActive }, ref) => {
   useImperativeHandle(ref, () => ({
     handleInternalScroll: (deltaY) => {
       if (deltaY > 0) {
-        // Scrolling down
         if (activeTabIndex < tabsData.length - 1) {
           setActiveTabIndex((prev) => prev + 1);
-          return true; // Scroll consumed
+          return true;
         }
       } else if (deltaY < 0) {
-        // Scrolling up
         if (activeTabIndex > 0) {
           setActiveTabIndex((prev) => prev - 1);
-          return true; // Scroll consumed
+          return true;
         }
       }
-      return false; // Scroll not consumed (at boundary)
+      return false;
     },
   }));
 
@@ -86,12 +82,36 @@ const TabsSection = forwardRef(({ isActive }, ref) => {
 
   return (
     <motion.div
-      className="h-full w-full bg-gradient-to-br from-purple-50 via-white to-purple-100 flex flex-col justify-center items-center pt-20 pb-10 px-4 sm:px-6 overflow-y-auto"
+      className="relative h-full w-full flex flex-col justify-center items-center px-4 sm:px-6 overflow-y-auto"
       variants={sectionOverallVariants}
       initial="initial"
       animate={isActive ? "animate" : "initial"}
     >
-      <div className="max-w-6xl mx-auto flex flex-col items-center w-full">
+      <motion.div
+        className="absolute left-0 right-0 inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={
+          isActive
+            ? {
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  duration: 1.2,
+                  delay: 0.1,
+                  ease: [0.455, 0.03, 0.515, 0.955],
+                },
+              }
+            : {}
+        }
+      >
+        <img
+          src={tabsBg}
+          alt="Hero background"
+          className="w-full h-full object-cover"
+        />
+      </motion.div>
+
+      <div className="max-w-6xl mx-auto flex flex-col items-center w-full z-10">
         <motion.div
           className="mb-10 flex flex-wrap justify-center space-x-1 sm:space-x-2 bg-white p-1 rounded-full shadow-lg"
           initial={{ opacity: 0, y: -20 }}
@@ -138,7 +158,7 @@ const TabsSection = forwardRef(({ isActive }, ref) => {
               <motion.img
                 src={activeTabContent.largeImg}
                 alt="Main content"
-                className="w-[260px] sm:w-[300px] lg:w-[340px] rounded-2xl shadow-2xl"
+                className="w-[200px] sm:w-[300px] lg:w-[300px] rounded-2xl"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{
                   scale: 1,
@@ -146,7 +166,7 @@ const TabsSection = forwardRef(({ isActive }, ref) => {
                   transition: { duration: 0.5, delay: 0.1 },
                 }}
               />
-              <motion.img
+              {/* <motion.img
                 src={activeTabContent.smallImg}
                 alt="Highlight"
                 className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 w-20 h-20 sm:w-24 sm:h-24 rounded-lg shadow-xl border-4 border-white object-cover"
@@ -158,7 +178,7 @@ const TabsSection = forwardRef(({ isActive }, ref) => {
                   y: 0,
                   transition: { duration: 0.5, delay: 0.3 },
                 }}
-              />
+              /> */}
             </div>
           </motion.div>
         </AnimatePresence>

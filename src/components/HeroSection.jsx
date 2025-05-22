@@ -1,13 +1,9 @@
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-
-// Assets
 import heroCenterPhoneNew from "../assets/hero-center.png";
-import heroLeftPhoneNew from "../assets/hero-left.png";
-import heroRightPhoneNew from "../assets/hero-right.png";
 import heroBg from "../assets/hero-bg.png";
 
-const HeroSection = ({ isActive }) => {
+const HeroSection = ({ isActive, onNavigateToWaitlist }) => {
   const mainContentVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -25,18 +21,29 @@ const HeroSection = ({ isActive }) => {
   };
 
   const phoneVariants = (yBase = 0, scaleBase = 1, delay = 0) => ({
-    hidden: { opacity: 0, y: 50 + yBase, scale: scaleBase * 0.9 },
+    hidden: {
+      opacity: 0,
+      y: 200,
+      scale: scaleBase * 0.9,
+    },
     visible: {
       opacity: 1,
       y: yBase,
       scale: scaleBase,
       transition: {
-        duration: 0.8,
+        duration: 1,
         ease: "easeOut",
         delay: isActive ? delay : 0,
       },
     },
   });
+
+  const handleWaitlistClick = (e) => {
+    e.preventDefault();
+    if (onNavigateToWaitlist) {
+      onNavigateToWaitlist();
+    }
+  };
 
   return (
     <div className="relative h-full w-full flex flex-col justify-between items-center text-center overflow-hidden bg-white">
@@ -63,8 +70,6 @@ const HeroSection = ({ isActive }) => {
           className="w-full h-full object-cover"
         />
       </motion.div>
-
-      {/* Main content container (text and phones) */}
       <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-12 z-10">
         <motion.div
           className="flex flex-col items-center justify-center"
@@ -79,9 +84,15 @@ const HeroSection = ({ isActive }) => {
             Track your steps and calories effortlessly. Stay motivated, every
             step of the way.
           </p>
-          <button className="cursor-pointer mt-6 sm:mt-8 md:mt-10 px-6 py-3 sm:px-7 sm:py-3 border-2 border-gray-800 text-gray-800 rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-800 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center gap-2">
-            Explore More <FiArrowUpRight className="w-5 h-5" />
-          </button>
+          <a
+            onClick={handleWaitlistClick}
+            href="#waitlist-form"
+            className="cursor-pointer mt-6 sm:mt-8 md:mt-10 px-6 py-3 sm:px-7 sm:py-3 border-2 border-gray-800 text-gray-800 rounded-full text-sm sm:text-base font-semibold hover:bg-gray-800 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center gap-2"
+          >
+            {/* Explore More <FiArrowUpRight className="w-5 h-5" /> */}
+            Join the Waitlist
+            <FiArrowUpRight className="w-5 h-5" />
+          </a>
         </motion.div>
 
         <motion.div
@@ -93,22 +104,10 @@ const HeroSection = ({ isActive }) => {
           animate={isActive ? "visible" : "hidden"}
         >
           <motion.img
-            src={heroLeftPhoneNew}
-            alt="App screen diet tracking"
-            className="relative z-10 w-[28%] sm:w-[25%] md:w-auto md:max-w-[220px] lg:max-w-[260px] xl:max-w-[300px] h-auto object-contain transform translate-y-[3%] sm:translate-y-[2%]"
-            variants={phoneVariants(0.05, 1, 0.2)}
-          />
-          <motion.img
             src={heroCenterPhoneNew}
             alt="App screen main dashboard"
-            className="relative z-20 w-[40%] sm:w-[35%] md:w-auto md:max-w-[280px] lg:max-w-[540px] xl:max-w-[700px] h-auto object-contain -bottom-[20px] md:-bottom-[20px] lg:-bottom-[30px] xl:-bottom-[50px]" // Removed -bottom-[50px] for now, rely on items-end and natural flow. Add back if precise offset is crucial and test.
+            className="relative z-20 md:w-auto md:max-w-[480px] lg:max-w-[740px] xl:max-w-[9000px] h-auto object-contain -bottom-[10px] md:-bottom-[20px] lg:-bottom-[30px] xl:-bottom-[40px]" // Removed -bottom-[50px] for now, rely on items-end and natural flow. Add back if precise offset is crucial and test.
             variants={phoneVariants(0, 1, 0)}
-          />
-          <motion.img
-            src={heroRightPhoneNew}
-            alt="App screen daily stats"
-            className="relative z-10 w-[28%] sm:w-[25%] md:w-auto md:max-w-[220px] lg:max-w-[260px] xl:max-w-[300px] h-auto object-contain transform translate-y-[3%] sm:translate-y-[2%]"
-            variants={phoneVariants(0.05, 1, 0.2)}
           />
         </motion.div>
       </div>
