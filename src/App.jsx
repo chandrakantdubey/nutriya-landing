@@ -4,14 +4,14 @@ import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import FeaturesSection from "./components/FeaturesSection";
 import TabsSection from "./components/TabsSection";
-import HowToStartSection from "./components/HowToStartSection";
+// import HowToStartSection from "./components/HowToStartSection";
 import CtaSection from "./components/CtaSection";
 
 const sectionsConfig = [
   { id: "hero", Component: HeroSection },
   { id: "features", Component: FeaturesSection },
   { id: "tabs", Component: TabsSection, hasInternalScroll: true },
-  { id: "how-to-start", Component: HowToStartSection },
+  // { id: "how-to-start", Component: HowToStartSection },
   { id: "cta", Component: CtaSection },
 ];
 
@@ -133,7 +133,10 @@ function App() {
       ref={appContainerRef}
       className="h-screen w-screen overflow-hidden relative bg-white"
     >
-      <Header />
+      <Header
+        onNavigateToWaitlist={navigateToWaitlist}
+        show={activeIndex !== 0}
+      />
       {/* Container for the scrollable sections, positioned below the header */}
       <div
         className="relative w-full overflow-hidden"

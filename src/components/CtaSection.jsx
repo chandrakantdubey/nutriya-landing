@@ -294,7 +294,7 @@ const CtaSection = ({ isActive }) => {
               >
                 Something Healthy
                 <br />
-                Is Cooking
+                is Cooking
               </motion.h2>
               {/* --- JOIN WAITLIST FORM START --- */}
               <motion.div

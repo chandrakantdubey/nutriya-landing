@@ -19,13 +19,13 @@ const features = [
   {
     icon: <img src={ai} className="text-2xl object-cover text-blue-500" />,
     title: "Smarter Tracking, Zero Effort",
-    desc: "Get moving smarter, not harder. Our app gives you effortless daily tracking with zero fuss.",
+    desc: "Get moving smarter, not harder. Nutria AI gives you effortless daily tracking with zero fuss.",
   },
   {
     icon: (
       <img src={protien} className="text-2xl object-cover text-purple-500" />
     ),
-    title: "Protein - Eat Smarter",
+    title: "Eat Smarter",
     desc: "Plan meals with purpose. Log smarter food choices, get personalized insights.",
   },
   {
@@ -46,7 +46,7 @@ const features = [
       />
     ),
     title: "Improve Recovery",
-    desc: "Monitor energy levels and adjust workouts based on recovery data.",
+    desc: "Monitor your energy levels and adjust workouts based on recovery data integrated with Apple Watch, Garmin, Fitbit, or WHOOP.",
   },
   {
     icon: (
