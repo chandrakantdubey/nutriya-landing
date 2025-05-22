@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Component } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -6,12 +6,14 @@ import FeaturesSection from "./components/FeaturesSection";
 import TabsSection from "./components/TabsSection";
 // import HowToStartSection from "./components/HowToStartSection";
 import CtaSection from "./components/CtaSection";
+import WaitlistSection from "./components/WaitListSection";
 
 const sectionsConfig = [
   { id: "hero", Component: HeroSection },
   { id: "features", Component: FeaturesSection },
   { id: "tabs", Component: TabsSection, hasInternalScroll: true },
   // { id: "how-to-start", Component: HowToStartSection },
+  { id: "waitlist", Component: WaitlistSection, hasInternalScroll: true },
   { id: "cta", Component: CtaSection },
 ];
 
@@ -123,7 +125,7 @@ function App() {
 
   const navigateToWaitlist = () => {
     const ctaSectionIndex = sectionsConfig.findIndex(
-      (section) => section.id === "cta"
+      (section) => section.id === "waitlist"
     );
     setActiveIndex(ctaSectionIndex);
   };

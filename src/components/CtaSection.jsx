@@ -198,9 +198,10 @@ const CtaSection = ({ isActive }) => {
             About Us
           </button>
           <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-4xl">
-            Simplify your wellness with smart tracking for nutrition, workouts,
-            and recovery. Build lasting habits, get personalized insights, and
-            achieve your health goals effortlessly. Live energized.
+            We simplify your wellness with smart tracking for nutrition,
+            workouts, and recovery. Help you build lasting habits, get
+            personalized insights, and achieve your health goals effortlessly.
+            Live energized.
           </p>
           {/* <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-6xl">
             Experience effortless wellness with smart, personalized tracking.
@@ -297,7 +298,7 @@ const CtaSection = ({ isActive }) => {
                 is Cooking
               </motion.h2>
               {/* --- JOIN WAITLIST FORM START --- */}
-              <motion.div
+              {/* <motion.div
                 id="waitlist-form"
                 variants={formGroupVariants} // This group will animate as part of the stagger if darkCardContentVariants has staggerChildren
                 className="w-full max-w-sm mx-auto lg:mx-0 mt-2" // Max width for the form area
@@ -341,7 +342,7 @@ const CtaSection = ({ isActive }) => {
                     {submitMessage}
                   </motion.p>
                 )}
-              </motion.div>
+              </motion.div> */}
               {/* --- JOIN WAITLIST FORM END --- */}
             </motion.div>
           </div>
